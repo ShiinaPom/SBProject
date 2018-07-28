@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cpfmat.mapper.SystemParamMapper">
+
+	<resultMap id="BaseResultMap" type="com.cpfmat.mapper.entity.SystemParamMapper">
+		<id column="SEQ_ID" property="seqId" />
+		<result column="PARAM_TYPE" property="paramType" />
+		<result column="PARAM_KEY" property="paramKey" />
+		<result column="PARAM_VALUE" property="paramValue" />
+		<result column="INSERT_TIME" property="insertTime" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="UPDATE_COUNTS" property="updateCounts" />
+		<result column="DEL_FLAG" property="delFlag" />
+	</resultMap>
+
+    <!-- 通用查询结果列-->
+    <sql id="Base_Column_List">
+    	SEQ_ID AS seqId,
+        PARAM_TYPE AS paramType,
+        PARAM_KEY AS paramKey,
+        PARAM_VALUE AS paramValue,
+        INSERT_TIME AS insertTime,
+        UPDATE_TIME AS updateTime,
+        UPDATE_COUNTS AS updateCounts,
+        DEL_FLAG AS delFlag,
+    </sql>
+    
+    <update id="customUpdateById" parameterType="com.cpfmat.entity.SystemParam">
+    	update SYSTEM_PARAM set UPDATE_TIME = SYSDATE(),UPDATE_COUNTS = (UPDATE_COUNTS + 1)
+    	<if test="paramType != null and paramType != ''">
+    		PARAM_TYPE = #{paramType},
+    	</if>
+    	<if test="paramKey != null and paramKey != ''">
+    		PARAM_KEY = #{paramKey},
+    	</if>
+    	<if test="paramValue != null and paramValue != ''">
+    		PARAM_VALUE = #{paramValue},
+    	</if>
+    	where SEQ_ID = #{seqId} and DEL_FLAG = 0
+    </update>
+</mapper>
